@@ -53,6 +53,10 @@ function App() {
     setDur(x.target.value)
   }
 
+  function changeDriver(x: ChangeEvent<HTMLInputElement>) {
+    setDriver(x.target.value)
+  }
+
   function submit(e: any) {
     e.preventDefault()
     let trip = { location: loc, car_id: car_id, duration: duration }
@@ -60,6 +64,14 @@ function App() {
     setLoc("")
     setId("")
     setDur("")
+  }
+
+  function submitCar(e: any) {
+    e.preventDefault()
+    let carinfo = {car_id: car_id, driver: driver }
+    setCarInfos([...carinfos, carinfo])
+    setId("")
+    setDriver("")
   }
 
   function handleToggle(i: number) {
@@ -107,7 +119,7 @@ function App() {
           </form>
         </div>
         <div className='right'>
-        <h2>Here you find infromation about cars</h2>
+        <h2>Here you find information about cars and drivers</h2>
         <nav>
           <div>
             <ul>
@@ -125,6 +137,13 @@ function App() {
           <div className='chart'>
             <CarChart trips={trips} />
           </div>
+          <form>
+            🆔 Car Identification:{" "}
+            <input type='text' onChange={changeCarid} value={car_id}></input>
+            👤 Driver:{" "}
+            <input type='text' onChange={changeDriver} value={driver}></input>
+            <input type='submit' value='Update Info' onClick={submitCar}></input>
+          </form>
         </div>
       </div>
       <footer id='footer'>
