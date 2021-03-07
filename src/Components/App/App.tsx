@@ -2,8 +2,8 @@ import React from "react"
 import { ChangeEvent, useEffect, useState } from "react"
 import logo from "./helveticar.png"
 import "./App.css"
-import Map from "../Map/Map.js"
-import Chart from "../Chart/Chart"
+import LocChart from "../LocationChart/LocationChart"
+import CarChart from "../CarChart/CarChart"
 
 
 interface Trip {
@@ -54,31 +54,45 @@ function App() {
       <h1>
         Hi there <span className='wave'>👋</span>, welcome to your dashboard
       </h1>
-      <h2>✔️ Here you find a list of recent trips</h2>
-      <nav>
-        <div>
-          <ul>
-            {trips.map((t, i) => {
-              return (
-                <li key={i} onClick={() => handleToggle(i)}>
-                  🆔 {t.car_id}: 📍{t.location}
-                </li>
-              )
-            })}
-          </ul>
-        </div>
-      </nav>
       <div className='wrapper'>
         <div className='left'>
-          <h2>🗺️ Map</h2>
-          <div className='map'>
-            <Map />
+        <h2>✔️ Here you find a list of recent trips</h2>
+        <nav>
+          <div>
+            <ul>
+              {trips.map((t, i) => {
+                return (
+                  <li key={i} onClick={() => handleToggle(i)}>
+                    🆔 {t.car_id}: 📍{t.location}
+                  </li>
+                )
+              })}
+            </ul>
+          </div>
+        </nav>
+          <h2>📍 Overview of trips by location</h2>
+          <div className='chart'>
+            <LocChart trips={trips} />
           </div>
         </div>
         <div className='right'>
-          <h2>📊 Overview of trips</h2>
+        <h2>Here you find infromation about cars</h2>
+        <nav>
+          <div>
+            <ul>
+              {trips.map((t, i) => {
+                return (
+                  <li key={i} onClick={() => handleToggle(i)}>
+                    🆔 {t.car_id}: 📍{t.location}
+                  </li>
+                )
+              })}
+            </ul>
+          </div>
+        </nav>
+          <h2>🚗 Overview of trips by car</h2>
           <div className='chart'>
-            <Chart trips={trips} />
+            <CarChart trips={trips} />
           </div>
           <form>
             🆔 Car Identification:{" "}
@@ -90,7 +104,7 @@ function App() {
         </div>
       </div>
       <footer id='footer'>
-        Created with <span className='wave'>❤️</span> in Lisbon by LMO | 2615 -
+        Created with <span className='wave'>❤️</span> in Lisbon by LMO, FSN & GS | 2615 -
         Web and Cloud Computing @ <a href='http://novasbe.pt/'>Nova SBE</a>
       </footer>
     </body>
