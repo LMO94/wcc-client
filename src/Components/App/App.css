@@ -51,17 +51,18 @@
 
 .left {
   float: left;
-  width: 45%;
+  width: 40%;
   overflow: hidden;
   padding-left: 10px;
      
       }
 
 .right {
-  width: 45%;
+  width: 40%;
   overflow: hidden;
   height: 100%;
   padding-left: 10px;
+  flot: right;
 }
 
 footer {
@@ -80,17 +81,10 @@ footer {
   margin-left: 5px;
 }
 
-.map {
-  position: relative;
-  bottom: 10px;
-  padding-top: 10%;
-  height: 400px;
-  width: 90%;
-}
 
 .wrapper {
   margin-top: 10px;
-  padding-bottom: 10px;
+  padding-bottom: 100px;
   position:relative;
 
 }
@@ -99,5 +93,5 @@ footer {
   position: relative;
   bottom: 10px;
   min-height: 100%;
-  min-width: 100%;
+  min-width: 80%;
 }
