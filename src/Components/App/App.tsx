@@ -9,13 +9,23 @@ import CarChart from "../CarChart/CarChart"
 interface Trip {
   location: string
   car_id: string
+  duration: string
+}
+
+interface CarInfo {
+  car_id: string
+  driver: string
 }
 
 
 function App() {
   const [loc, setLoc] = useState("")
   const [car_id, setId] = useState("")
+  const [duration, setDur] = useState("")
   const [trips, setTrips] = useState([] as Trip[])
+
+  const [driver, setDriver] = useState("")
+  const [carinfos, setCarInfos] = useState([] as CarInfo[])
 
   function loadTrips() {
     fetch("/trips.json")
@@ -23,6 +33,13 @@ function App() {
       .then((trips) => setTrips(trips))
   }
   useEffect(loadTrips, [])
+
+  function loadCarInfos() {
+    fetch("/carinfos.json")
+      .then((data) => data.json())
+      .then((carinfos) => setCarInfos(carinfos))
+  }
+  useEffect(loadCarInfos, [])
 
   function changeLocation(x: ChangeEvent<HTMLInputElement>) {
     setLoc(x.target.value)
@@ -32,12 +49,17 @@ function App() {
     setId(x.target.value)
   }
 
+  function changeDuration(x: ChangeEvent<HTMLInputElement>) {
+    setDur(x.target.value)
+  }
+
   function submit(e: any) {
     e.preventDefault()
-    let trip = { location: loc, car_id: car_id }
+    let trip = { location: loc, car_id: car_id, duration: duration }
     setTrips([...trips, trip])
     setLoc("")
     setId("")
+    setDur("")
   }
 
   function handleToggle(i: number) {
@@ -63,7 +85,7 @@ function App() {
               {trips.map((t, i) => {
                 return (
                   <li key={i} onClick={() => handleToggle(i)}>
-                    🆔 {t.car_id}: 📍{t.location}
+                    🆔 {t.car_id}: 📍{t.location}: ⌚{t.duration}
                   </li>
                 )
               })}
@@ -74,16 +96,25 @@ function App() {
           <div className='chart'>
             <LocChart trips={trips} />
           </div>
+          <form>
+            🆔 Car Identification:{" "}
+            <input type='text' onChange={changeCarid} value={car_id}></input>
+            📍Location:{" "}
+            <input type='text' onChange={changeLocation} value={loc}></input>
+            ⌚ Duration:{" "}
+            <input type='text' onChange={changeDuration} value={duration}></input>
+            <input type='submit' value='Add Trip' onClick={submit}></input>
+          </form>
         </div>
         <div className='right'>
         <h2>Here you find infromation about cars</h2>
         <nav>
           <div>
             <ul>
-              {trips.map((t, i) => {
+              {carinfos.map((t, i) => {
                 return (
                   <li key={i} onClick={() => handleToggle(i)}>
-                    🆔 {t.car_id}: 📍{t.location}
+                    🆔 {t.car_id}: 👤 {t.driver}
                   </li>
                 )
               })}
@@ -94,13 +125,6 @@ function App() {
           <div className='chart'>
             <CarChart trips={trips} />
           </div>
-          <form>
-            🆔 Car Identification:{" "}
-            <input type='text' onChange={changeCarid} value={car_id}></input>
-            📍Location:{" "}
-            <input type='text' onChange={changeLocation} value={loc}></input>
-            <input type='submit' value='Add Trip' onClick={submit}></input>
-          </form>
         </div>
       </div>
       <footer id='footer'>
