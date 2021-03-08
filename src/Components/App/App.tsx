@@ -27,15 +27,26 @@ function App() {
   const [driver, setDriver] = useState("")
   const [carinfos, setCarInfos] = useState([] as CarInfo[])
 
-  function loadTrips() {
-    fetch("/trips.json")
+  /*function loadTrips() {
+    fetch("/trips") 
       .then((data) => data.json())
       .then((trips) => setTrips(trips))
+  }*/
+
+  function loadTrips(){
+    fetch("/trips", {
+      method: "GET", headers: { 
+        "content-type": "application/json;chartset=UTF-8"
+      }
+    })
+    .then((data) => data.json())
+    .then((trips) => setTrips(trips))
   }
+
   useEffect(loadTrips, [])
 
   function createTrips(trip:Trip) {
-    fetch("/localhost:8080/trips", {
+    fetch("/trips", {
         method: "POST", headers: {
             'content-type': 'application/json;charset=UTF-8',
         },
@@ -69,7 +80,7 @@ function App() {
 
 
   function toggleOnServer(i:number) {
-    fetch("/localhost:8080/trips", {
+    fetch("/trips", {
         method: "PUT", headers: {
             'content-type': 'application/json;charset=UTF-8',
         },
