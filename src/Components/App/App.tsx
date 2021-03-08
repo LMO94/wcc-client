@@ -35,7 +35,7 @@ function App() {
   useEffect(loadTrips, [])
 
   function createTrips(trip:Trip) {
-    fetch("/trips", {
+    fetch("/localhost:8080/trips", {
         method: "POST", headers: {
             'content-type': 'application/json;charset=UTF-8',
         },
@@ -69,7 +69,7 @@ function App() {
 
 
   function toggleOnServer(i:number) {
-    fetch("/tasks", {
+    fetch("/localhost:8080/trips", {
         method: "PUT", headers: {
             'content-type': 'application/json;charset=UTF-8',
         },
