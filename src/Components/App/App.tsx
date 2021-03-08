@@ -34,6 +34,16 @@ function App() {
   }
   useEffect(loadTrips, [])
 
+  function createTrips(trip:Trip) {
+    fetch("/trips", {
+        method: "POST", headers: {
+            'content-type': 'application/json;charset=UTF-8',
+        },
+        body: JSON.stringify(trip) })
+    .then( data => console.log(data) )
+}
+
+
   function loadCarInfos() {
     fetch("/carinfos.json")
       .then((data) => data.json())
@@ -57,10 +67,22 @@ function App() {
     setDriver(x.target.value)
   }
 
-  function submit(e: any) {
+
+  function toggleOnServer(i:number) {
+    fetch("/tasks", {
+        method: "PUT", headers: {
+            'content-type': 'application/json;charset=UTF-8',
+        },
+        body: JSON.stringify({n:i})
+    })
+    .then(data => console.log(data))
+}
+
+  function submitTrip(e: any) {
     e.preventDefault()
     let trip = { location: loc, car_id: car_id, duration: duration }
     setTrips([...trips, trip])
+    createTrips(trip)
     setLoc("")
     setId("")
     setDur("")
@@ -76,7 +98,9 @@ function App() {
 
   function handleToggle(i: number) {
     // Functional Javascript
+    toggleOnServer(i)
     setTrips(trips.map((t, j) => (j === i ? { ...t } : t)))
+    setCarInfos(carinfos.map((t, j) => (j === i ? { ...t } : t)))
   }
 
   return (
@@ -115,7 +139,7 @@ function App() {
             <input type='text' onChange={changeLocation} value={loc}></input>
             ⌚ Duration:{" "}
             <input type='text' onChange={changeDuration} value={duration}></input>
-            <input type='submit' value='Add Trip' onClick={submit}></input>
+            <input type='submit' value='Add Trip' onClick={submitTrip}></input>
           </form>
         </div>
         <div className='right'>

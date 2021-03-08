@@ -51,18 +51,19 @@
 
 .left {
   float: left;
-  width: 40%;
+  width: 45%;
   overflow: hidden;
   padding-left: 10px;
      
       }
 
 .right {
-  width: 40%;
+  width: 45%;
   overflow: hidden;
   height: 100%;
   padding-left: 10px;
-  flot: right;
+  padding-right: 10px;
+  float: right;
 }
 
 footer {
@@ -84,8 +85,9 @@ footer {
 
 .wrapper {
   margin-top: 10px;
-  padding-bottom: 100px;
+  padding-bottom: 300px;
   position:relative;
+  margin-bottom: 100px;
 
 }
 
@@ -94,4 +96,5 @@ footer {
   bottom: 10px;
   min-height: 100%;
   min-width: 80%;
+  align-items: bottom;
 }
