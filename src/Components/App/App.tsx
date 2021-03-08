@@ -27,17 +27,12 @@ function App() {
   const [driver, setDriver] = useState("")
   const [carinfos, setCarInfos] = useState([] as CarInfo[])
 
-  /*function loadTrips() {
-    fetch("/trips") 
-      .then((data) => data.json())
-      .then((trips) => setTrips(trips))
-  }*/
 
   function loadTrips(){
     fetch("/trips", {
-      method: "GET", headers: { 
-        "content-type": "application/json;chartset=UTF-8"
-      }
+      method: "GET", headers: {
+        'content-type': 'application/json;charset=UTF-8',
+    },
     })
     .then((data) => data.json())
     .then((trips) => setTrips(trips))
@@ -54,12 +49,16 @@ function App() {
     .then( data => console.log(data) )
 }
 
+function loadCarInfos(){
+  fetch("/carinfos", {
+    method: "GET", headers: { 
+      "content-type": "application/json;chartset=UTF-8"
+    }
+  })
+  .then((data) => data.json())
+  .then((carinfos) => setTrips(carinfos))
+}
 
-  function loadCarInfos() {
-    fetch("/carinfos.json")
-      .then((data) => data.json())
-      .then((carinfos) => setCarInfos(carinfos))
-  }
   useEffect(loadCarInfos, [])
 
   function changeLocation(x: ChangeEvent<HTMLInputElement>) {
