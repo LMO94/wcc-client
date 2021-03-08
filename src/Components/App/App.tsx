@@ -56,7 +56,7 @@ function loadCarInfos(){
     }
   })
   .then((data) => data.json())
-  .then((carinfos) => setTrips(carinfos))
+  .then((carinfos) => setCarInfos(carinfos))
 }
 
   useEffect(loadCarInfos, [])
@@ -85,7 +85,7 @@ function loadCarInfos(){
         },
         body: JSON.stringify({n:i})
     })
-    .then(data => console.log(data))
+    .then(tripsdata => console.log(tripsdata))
 }
 
   function submitTrip(e: any) {

@@ -75,6 +75,7 @@ footer {
   position:absolute;
 }
 
+
 .logo {
   width: 50px;
   height: 40px;
@@ -87,7 +88,8 @@ footer {
   margin-top: 10px;
   padding-bottom: 300px;
   position:relative;
-  margin-bottom: 100px;
+  margin-bottom: 200px;
+
 
 }
 
