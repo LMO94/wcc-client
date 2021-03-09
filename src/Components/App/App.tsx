@@ -49,6 +49,15 @@ function App() {
     .then( data => console.log(data) )
 }
 
+function createCarInfos(carinfo:CarInfo) {
+  fetch("/carinfos", {
+      method: "POST", headers: {
+          'content-type': 'application/json;charset=UTF-8',
+      },
+      body: JSON.stringify(carinfo) })
+  .then( data => console.log(data) )
+}
+
 function loadCarInfos(){
   fetch("/carinfos", {
     method: "GET", headers: { 
@@ -79,7 +88,7 @@ function loadCarInfos(){
 
 
   function toggleOnServer(i:number) {
-    fetch("/carinfo", {
+    fetch("/carinfos", {
         method: "PUT", headers: {
             'content-type': 'application/json;charset=UTF-8',
         },
@@ -96,12 +105,13 @@ function loadCarInfos(){
     setLoc("")
     setId("")
     setDur("")
-  }
+  } 
 
   function submitCar(e: any) {
     e.preventDefault()
     let carinfo = {car_id: car_id, driver: driver }
     setCarInfos([...carinfos, carinfo])
+    createCarInfos(carinfo)
     setId("")
     setDriver("")
   }
