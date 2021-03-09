@@ -79,13 +79,13 @@ function loadCarInfos(){
 
 
   function toggleOnServer(i:number) {
-    fetch("/trips", {
+    fetch("/carinfo", {
         method: "PUT", headers: {
             'content-type': 'application/json;charset=UTF-8',
         },
         body: JSON.stringify({n:i})
     })
-    .then(tripsdata => console.log(tripsdata))
+    .then(data => console.log(data))
 }
 
   function submitTrip(e: any) {
