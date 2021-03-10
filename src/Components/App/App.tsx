@@ -87,12 +87,12 @@ function loadCarInfos(){
   }
 
 
-  function toggleOnServer(i:number) {
-    fetch("/carinfos", {
+  function updateCar(carinfo:CarInfo) {
+    fetch("/carinfos/" +carinfo.car_id, {
         method: "PUT", headers: {
             'content-type': 'application/json;charset=UTF-8',
         },
-        body: JSON.stringify({n:i})
+        body: JSON.stringify({driver:carinfo.driver})
     })
     .then(data => console.log(data))
 }
@@ -110,18 +110,30 @@ function loadCarInfos(){
   function submitCar(e: any) {
     e.preventDefault()
     let carinfo = {car_id: car_id, driver: driver }
-    setCarInfos([...carinfos, carinfo])
-    createCarInfos(carinfo)
+    let exist = existsCarInfoById(carinfo.car_id)
+    if(exist) {
+    updateCar(carinfo)
+    loadCarInfos()
+    } else {
+      setCarInfos([...carinfos, carinfo])
+      createCarInfos(carinfo)
+    }
     setId("")
     setDriver("")
   }
 
-  function handleToggle(i: number) {
-    // Functional Javascript
-    toggleOnServer(i)
-    setTrips(trips.map((t, j) => (j === i ? { ...t } : t)))
-    setCarInfos(carinfos.map((t, j) => (j === i ? { ...t } : t)))
-  }
+  function existsCarInfoById(id:string): Boolean {
+    let value = false;
+    carinfos.forEach((carinfo: CarInfo)=>{
+        if (carinfo.car_id === id) {
+            value = true;
+        }
+    })
+    return value;
+}
+
+
+
 
   return (
     <body className='App-body'>
@@ -140,7 +152,7 @@ function loadCarInfos(){
             <ul>
               {trips.map((t, i) => {
                 return (
-                  <li key={i} onClick={() => handleToggle(i)}>
+                  <li>
                     🆔 {t.car_id}: 📍{t.location}: ⌚{t.duration}
                   </li>
                 )
@@ -169,7 +181,7 @@ function loadCarInfos(){
             <ul>
               {carinfos.map((t, i) => {
                 return (
-                  <li key={i} onClick={() => handleToggle(i)}>
+                  <li>
                     🆔 {t.car_id}: 👤 {t.driver}
                   </li>
                 )

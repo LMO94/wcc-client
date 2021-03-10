@@ -101,3 +101,15 @@ footer {
   min-width: 80%;
   align-items: bottom;
 }
+
+.grid-container {
+  display: inline-grid;
+  grid-template-columns: auto auto;
+  padding: 10px;
+}
+
+.grid-item {
+  padding: 20px;
+  font-size: 30px;
+  text-align: center;
+}
