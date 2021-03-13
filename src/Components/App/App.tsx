@@ -1,3 +1,4 @@
+
 import React from "react"
 import { ChangeEvent, useEffect, useState } from "react"
 import logo from "./helveticar.png"
@@ -49,6 +50,15 @@ function App() {
     .then( data => console.log(data) )
 }
 
+function createCarInfos(carinfo:CarInfo) {
+  fetch("/carinfos", {
+      method: "POST", headers: {
+          'content-type': 'application/json;charset=UTF-8',
+      },
+      body: JSON.stringify(carinfo) })
+  .then( data => console.log(data) )
+}
+
 function loadCarInfos(){
   fetch("/carinfos", {
     method: "GET", headers: { 
@@ -78,12 +88,12 @@ function loadCarInfos(){
   }
 
 
-  function toggleOnServer(i:number) {
-    fetch("/carinfo", {
+  function updateCar(carinfo:CarInfo) {
+    fetch("/carinfos/" +carinfo.car_id, {
         method: "PUT", headers: {
             'content-type': 'application/json;charset=UTF-8',
         },
-        body: JSON.stringify({n:i})
+        body: JSON.stringify({driver:carinfo.driver})
     })
     .then(data => console.log(data))
 }
@@ -96,93 +106,121 @@ function loadCarInfos(){
     setLoc("")
     setId("")
     setDur("")
-  }
+  } 
 
   function submitCar(e: any) {
     e.preventDefault()
     let carinfo = {car_id: car_id, driver: driver }
-    setCarInfos([...carinfos, carinfo])
+    let exist = existsCarInfoById(carinfo.car_id)
+    if(exist) {
+    updateCar(carinfo)
+    loadCarInfos()
+    } else {
+      setCarInfos([...carinfos, carinfo])
+      createCarInfos(carinfo)
+    }
     setId("")
     setDriver("")
   }
 
-  function handleToggle(i: number) {
-    // Functional Javascript
-    toggleOnServer(i)
-    setTrips(trips.map((t, j) => (j === i ? { ...t } : t)))
-    setCarInfos(carinfos.map((t, j) => (j === i ? { ...t } : t)))
-  }
+  function existsCarInfoById(id:string): Boolean {
+    let value = false;
+    carinfos.forEach((carinfo: CarInfo)=>{
+        if (carinfo.car_id === id) {
+            value = true;
+        }
+    })
+    return value;
+}
 
   return (
     <body className='App-body'>
       <header className='App-header'>
         <img className='logo' src={logo} alt='logo' />
-        elveticar
-      </header>
+    elveticar
+  </header>
       <h1>
         Hi there <span className='wave'>👋</span>, welcome to your dashboard
-      </h1>
+    </h1>
+
+
       <div className='wrapper'>
+        <div className="wrapper">
+          <div className="left">
+            <h2>📍 Overview of trips by location</h2>
+            <div className='chart'>  <LocChart trips={trips} />  </div>
+          </div>
+          <div className="right">
+            <h2>🚗 Overview of trips by car</h2>
+            <div className='chart'> <CarChart trips={trips} /> </div>
+          </div>
+        </div>
+
+
         <div className='left'>
-        <h2>✔️ Here you find a list of recent trips</h2>
-        <nav>
-          <div>
-            <ul>
-              {trips.map((t, i) => {
-                return (
-                  <li key={i} onClick={() => handleToggle(i)}>
-                    🆔 {t.car_id}: 📍{t.location}: ⌚{t.duration}
-                  </li>
-                )
-              })}
-            </ul>
-          </div>
-        </nav>
-          <h2>📍 Overview of trips by location</h2>
-          <div className='chart'>
-            <LocChart trips={trips} />
-          </div>
           <form>
-            🆔 Car Identification:{" "}
-            <input type='text' onChange={changeCarid} value={car_id}></input>
-            📍Location:{" "}
-            <input type='text' onChange={changeLocation} value={loc}></input>
-            ⌚ Duration:{" "}
+            <input type='text' onChange={changeCarid} value={car_id}  ></input>
+    🆔 Car Identification{" "}
+            <br></br>
+            <input type='text' onChange={changeLocation} value={loc} ></input>
+    📍Location{" "}
+            <br></br>
             <input type='text' onChange={changeDuration} value={duration}></input>
+    ⌚ Duration{" "}
+            <br></br>
             <input type='submit' value='Add Trip' onClick={submitTrip}></input>
           </form>
+
+
+          <h2>✔️ Here you find a list of recent trips</h2>
+          <nav>
+            <div>
+              <ul>
+                {trips.map((t, i) => {
+                  return (
+                    <li>
+                      🆔 {t.car_id}: 📍{t.location}: ⌚{t.duration}
+                    </li>
+                  )
+                })}
+              </ul>
+            </div>
+          </nav>
         </div>
+
+
         <div className='right'>
-        <h2>Here you find information about cars and drivers</h2>
-        <nav>
-          <div>
-            <ul>
-              {carinfos.map((t, i) => {
-                return (
-                  <li key={i} onClick={() => handleToggle(i)}>
-                    🆔 {t.car_id}: 👤 {t.driver}
-                  </li>
-                )
-              })}
-            </ul>
-          </div>
-        </nav>
-          <h2>🚗 Overview of trips by car</h2>
-          <div className='chart'>
-            <CarChart trips={trips} />
-          </div>
           <form>
-            🆔 Car Identification:{" "}
             <input type='text' onChange={changeCarid} value={car_id}></input>
-            👤 Driver:{" "}
+      🆔 Car Identification{" "}
+            <br></br>
             <input type='text' onChange={changeDriver} value={driver}></input>
-            <input type='submit' value='Update Info' onClick={submitCar}></input>
+      👤 Driver{" "}
+            <br></br>
+            <input type='submit' onClick={submitCar}></input>
           </form>
+
+          <br></br>
+          <h2>Here you find information about cars and drivers</h2>
+          <nav>
+            <div>
+              <ul>
+                {carinfos.map((t, i) => {
+                  return (
+                    <li>
+                      🆔 {t.car_id}: 👤 {t.driver}
+                    </li>
+                  )
+                })}
+              </ul>
+            </div>
+          </nav>
+
         </div>
       </div>
-      <footer id='footer'>
+      <footer id='footer' className='left'>
         Created with <span className='wave'>❤️</span> in Lisbon by LMO, FSN & GS | 2615 -
-        Web and Cloud Computing @ <a href='http://novasbe.pt/'>Nova SBE</a>
+  Web and Cloud Computing @ <a href='http://novasbe.pt/'>Nova SBE</a>
       </footer>
     </body>
   )
