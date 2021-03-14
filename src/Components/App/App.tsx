@@ -132,12 +132,6 @@ function loadCarInfos(){
     })
     return value;
 }
-<<<<<<< HEAD
-
-
-
-=======
->>>>>>> Frederik
 
   return (
     <body className='App-body'>
@@ -151,26 +145,10 @@ function loadCarInfos(){
 
 
       <div className='wrapper'>
-<<<<<<< HEAD
-        <div className='left'>
-        <h2>✔️ Here you find a list of recent trips</h2>
-        <nav>
-          <div>
-            <ul>
-              {trips.map((t, i) => {
-                return (
-                  <li>
-                    🆔 {t.car_id}: 📍{t.location}: ⌚{t.duration}
-                  </li>
-                )
-              })}
-            </ul>
-=======
         <div className="wrapper">
           <div className="left">
             <h2>📍 Overview of trips by location</h2>
             <div className='chart'>  <LocChart trips={trips} />  </div>
->>>>>>> Frederik
           </div>
           <div className="right">
             <h2>🚗 Overview of trips by car</h2>
@@ -212,27 +190,6 @@ function loadCarInfos(){
 
 
         <div className='right'>
-<<<<<<< HEAD
-        <h2>Here you find information about cars and drivers</h2>
-        <nav>
-          <div>
-            <ul>
-              {carinfos.map((t, i) => {
-                return (
-                  <li>
-                    🆔 {t.car_id}: 👤 {t.driver}
-                  </li>
-                )
-              })}
-            </ul>
-          </div>
-        </nav>
-          <h2>🚗 Overview of trips by car</h2>
-          <div className='chart'>
-            <CarChart trips={trips} />
-          </div>
-=======
->>>>>>> Frederik
           <form>
             <input type='text' onChange={changeCarid} value={car_id}></input>
       🆔 Car Identification{" "}
