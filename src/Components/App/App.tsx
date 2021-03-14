@@ -1,3 +1,4 @@
+
 import React from "react"
 import { ChangeEvent, useEffect, useState } from "react"
 import logo from "./helveticar.png"
@@ -131,20 +132,26 @@ function loadCarInfos(){
     })
     return value;
 }
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> Frederik
 
   return (
     <body className='App-body'>
       <header className='App-header'>
         <img className='logo' src={logo} alt='logo' />
-        elveticar
-      </header>
+    elveticar
+  </header>
       <h1>
         Hi there <span className='wave'>👋</span>, welcome to your dashboard
-      </h1>
+    </h1>
+
+
       <div className='wrapper'>
+<<<<<<< HEAD
         <div className='left'>
         <h2>✔️ Here you find a list of recent trips</h2>
         <nav>
@@ -158,23 +165,54 @@ function loadCarInfos(){
                 )
               })}
             </ul>
+=======
+        <div className="wrapper">
+          <div className="left">
+            <h2>📍 Overview of trips by location</h2>
+            <div className='chart'>  <LocChart trips={trips} />  </div>
+>>>>>>> Frederik
           </div>
-        </nav>
-          <h2>📍 Overview of trips by location</h2>
-          <div className='chart'>
-            <LocChart trips={trips} />
+          <div className="right">
+            <h2>🚗 Overview of trips by car</h2>
+            <div className='chart'> <CarChart trips={trips} /> </div>
           </div>
+        </div>
+
+
+        <div className='left'>
           <form>
-            🆔 Car Identification:{" "}
-            <input type='text' onChange={changeCarid} value={car_id}></input>
-            📍Location:{" "}
-            <input type='text' onChange={changeLocation} value={loc}></input>
-            ⌚ Duration:{" "}
+            <input type='text' onChange={changeCarid} value={car_id}  ></input>
+    🆔 Car Identification{" "}
+            <br></br>
+            <input type='text' onChange={changeLocation} value={loc} ></input>
+    📍Location{" "}
+            <br></br>
             <input type='text' onChange={changeDuration} value={duration}></input>
+    ⌚ Duration{" "}
+            <br></br>
             <input type='submit' value='Add Trip' onClick={submitTrip}></input>
           </form>
+
+
+          <h2>✔️ Here you find a list of recent trips</h2>
+          <nav>
+            <div>
+              <ul>
+                {trips.map((t, i) => {
+                  return (
+                    <li>
+                      🆔 {t.car_id}: 📍{t.location}: ⌚{t.duration}
+                    </li>
+                  )
+                })}
+              </ul>
+            </div>
+          </nav>
         </div>
+
+
         <div className='right'>
+<<<<<<< HEAD
         <h2>Here you find information about cars and drivers</h2>
         <nav>
           <div>
@@ -193,18 +231,39 @@ function loadCarInfos(){
           <div className='chart'>
             <CarChart trips={trips} />
           </div>
+=======
+>>>>>>> Frederik
           <form>
-            🆔 Car Identification:{" "}
             <input type='text' onChange={changeCarid} value={car_id}></input>
-            👤 Driver:{" "}
+      🆔 Car Identification{" "}
+            <br></br>
             <input type='text' onChange={changeDriver} value={driver}></input>
-            <input type='submit' value='Update Info' onClick={submitCar}></input>
+      👤 Driver{" "}
+            <br></br>
+            <input type='submit' onClick={submitCar}></input>
           </form>
+
+          <br></br>
+          <h2>Here you find information about cars and drivers</h2>
+          <nav>
+            <div>
+              <ul>
+                {carinfos.map((t, i) => {
+                  return (
+                    <li>
+                      🆔 {t.car_id}: 👤 {t.driver}
+                    </li>
+                  )
+                })}
+              </ul>
+            </div>
+          </nav>
+
         </div>
       </div>
-      <footer id='footer'>
+      <footer id='footer' className='left'>
         Created with <span className='wave'>❤️</span> in Lisbon by LMO, FSN & GS | 2615 -
-        Web and Cloud Computing @ <a href='http://novasbe.pt/'>Nova SBE</a>
+  Web and Cloud Computing @ <a href='http://novasbe.pt/'>Nova SBE</a>
       </footer>
     </body>
   )
